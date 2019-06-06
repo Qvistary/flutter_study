@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'model/post.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,19 +19,36 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeContent extends StatelessWidget {
+  Widget _listItemBuilder(BuildContext context, int index) {
+    return Container(
+      margin: EdgeInsets.all(8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Image.network(
+            post[index].imageUrl,
+            width: 150,
+            fit: BoxFit.fitWidth,
+          ),
+          Expanded(child:Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  " 书名：${post[index].titlt}",style: TextStyle(color: Colors.deepOrange),
+                ),
+                Text(" 作者：${post[index].auther}"),
+                Text(" 内容：${post[index].content}"),
+              ]) ,) ,
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-      width: 300.0,
-      height: 100.0,
-      child: Text(
-        "data",
-        textAlign: TextAlign.right,
-        textDirection: TextDirection.ltr,
-        style: TextStyle(fontSize: 40.0, color: Colors.blue),
-      ),
-      decoration: BoxDecoration(color: Colors.orange,),
-    ));
+    return ListView.builder(
+      itemCount: post.length,
+      itemBuilder: _listItemBuilder,
+    );
   }
 }
